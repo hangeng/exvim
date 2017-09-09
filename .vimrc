@@ -3,6 +3,8 @@
 "/////////////////////////////////////////////////////////////////////////////
 
 set nocompatible " be iMproved, required
+let mapleader = ","
+let maplocalleader = ","
 
 function! OSX()
     return has('macunix')
@@ -115,13 +117,17 @@ syntax on " required
 if has('gui_running')
     set background=dark
 else
-    set background=dark
-    set t_Co=256 " make sure our terminal use 256 color
-    let g:solarized_termcolors = 256
+    syntax enable
+    "set background=dark
+    "set background=light
+    " set t_Co=256 " make sure our terminal use 256 color
+    "let g:solarized_termcolors = 256
 endif
-colorscheme solarized
-" colorscheme exlightgray
-" colorscheme gruvbox
+"colorscheme solarized
+colorscheme zellner
+"colorscheme evening
+"colorscheme exlightgray
+"colorscheme gruvbox
 
 "/////////////////////////////////////////////////////////////////////////////
 " General
@@ -129,6 +135,7 @@ colorscheme solarized
 
 "set path=.,/usr/include/*,, " where gf, ^Wf, :find will search
 set backup " make backup file and leave it around
+
 
 " setup back and swap directory
 let data_dir = $HOME.'/.data/'
@@ -240,6 +247,7 @@ set lazyredraw " do not redraw while executing macros (much faster)
 set display+=lastline " for easy browse last line with wrap text
 set laststatus=2 " always have status-line
 set titlestring=%t\ (%{expand(\"%:p:.:h\")}/)
+set statusline=%<%F\ %h%m%r%-14.(%l,%c%V%)\ %P\ %=
 
 " set window size (if it's GUI)
 if has('gui_running')
@@ -362,7 +370,7 @@ if has('autocmd')
         " Desc: file types
         " ------------------------------------------------------------------
 
-        au FileType text setlocal textwidth=78 " for all text files set 'textwidth' to 78 characters.
+        au FileType text setlocal textwidth=0 " for all text files set 'textwidth' to 78 characters.
         au FileType c,cpp,cs,swig set nomodeline " this will avoid bug in my project with namespace ex, the vim will tree ex:: as modeline.
 
         " disable auto-comment for c/cpp, lua, javascript, c# and vim-script
@@ -415,6 +423,8 @@ if has('autocmd')
     endfunction
 endif
 
+
+
 "/////////////////////////////////////////////////////////////////////////////
 " Key Mappings
 "/////////////////////////////////////////////////////////////////////////////
@@ -447,7 +457,7 @@ nnoremap <silent> <leader>y3 :let @*=fnamemodify(bufname('%'),":p")<CR>
 
 " F8 or <leader>/:  Set Search pattern highlight on/off
 nnoremap <F8> :let @/=""<CR>
-nnoremap <leader>/ :let @/=""<CR>
+" nnoremap <leader>/ :let @/=""<CR>
 " DISABLE: though nohlsearch is standard way in Vim, but it will not erase the
 "          search pattern, which is not so good when use it with exVim's <leader>r
 "          filter method
@@ -502,4 +512,200 @@ if filereadable(expand(vimrc_local_path))
     exec 'source ' . fnameescape(vimrc_local_path)
 endif
 
-" vim:ts=4:sw=4:sts=4 et fdm=marker:
+"/////////////////////////////////////////////////////////////////////////////
+" Geng's new config
+"/////////////////////////////////////////////////////////////////////////////
+"--------------------------------
+" modify curser shape
+" tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
+" http://sourceforge.net/mailarchive/forum.php?thread_name=AANLkTinkbdoZ8eNR1X2UobLTeww1jFrvfJxTMfKSq-L%2B%40mail.gmail.com&forum_name=tmux-users
+"--------------------------------
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    "let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    "let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+"--------------------------------
+" set clipboard
+"--------------------------------
+if OSX()
+    "set clipboard=unnamed
+    set clipboard=unnamedplus
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+    nnoremap ciw "zciw
+    nnoremap diw "zdiw
+    vnoremap ciw "zciw
+    vnoremap diw "zdiw
+    nnoremap yiw "zyiw
+    nnoremap c$ "zc$
+    vnoremap c$ "zc$
+    nnoremap dd "zdd
+    vnoremap d  "zd
+    noremap  y "zy
+    noremap  yy "zyy
+    noremap  p "zp
+    vnoremap y "zy
+    nnoremap x "zx
+else
+    "--------------------------------
+    " CTRL+C and CTRL+V to copy the selected text under visual mode to clipboard
+    "--------------------------------
+    vnoremap <silent> <C-C> y:call system('yank > /dev/tty', @0)<Return>
+    map      <silent> <C-V> "0gP
+    cmap     <silent> <C-V> <C-R>0
+    imap     <silent> <C-V> <C-R>0
+endif
+
+"--------------------------------
+" CTRL + E for vertical edit
+"--------------------------------
+noremap <C-e> <C-V>
+
+"--------------------------------
+" copy current absolute file name to the clipboard
+"--------------------------------
+if OSX()
+    :nmap <silent> cf :let @+=expand("%:p")<CR>
+    :nmap <silent> cp :let @+=expand("%:p:h")<CR>
+else
+    nmap <silent>  <leader>cf :call system('yank > /dev/tty', expand("%:p"))<Return>
+    nmap <silent>  <leader>cp :call system('yank > /dev/tty', expand("%:p:h"))<Return>
+endif
+
+
+"--------------------------------
+" format releated configurations
+"--------------------------------
+set fileformat=unix
+set nobackup
+set noswapfile
+set cindent shiftwidth=4 " Set cindent on to autoinent when editing C/C++ file, with 4 shift width
+set tabstop=4 " Set tabstop to 4 characters
+set expandtab " Set expandtab on, the tab will be change to space automaticaly
+
+"--------------------------------
+" enable mouse 
+"--------------------------------
+set mouse=a
+
+"--------------------------------
+" fix the window size resizing issue 
+" http://stackoverflow.com/questions/486027/close-a-split-window-in-vim-without-resizing-other-windows
+"--------------------------------
+set noea 
+
+"--------------------------------
+" show the tmp.txt in a new pane
+"--------------------------------
+nmap <leader>s :split /Users/hang1/notebook/tmp.txt<CR><C-w>R
+
+"--------------------------------
+" git push
+"--------------------------------
+nmap <leader>gp :!git add -u && git commit -m "bug fix" && git push<CR>
+map q <Nop>
+
+
+"--------------------------------
+" remap the <C-l> to  :TlistToggle
+"--------------------------------
+nnoremap <silent> <C-l> :TlistToggle<CR>
+
+"--------------------------------
+" without clipboard support, use yo to open a new line, switch to insert mode
+" and enable paste at so as to use the system paste command (cmd-v).
+" and disable paste automatically when back to normal mode
+"--------------------------------
+" https://github.com/tpope/vim-unimpaired/blob/master/plugin/unimpaired.vim
+" http://vimcasts.org/episodes/using-vims-paste-mode-with-the-system-paste-command/
+"--------------------------------
+function! s:setup_paste() abort
+  let s:paste = &paste
+  let s:mouse = &mouse
+  set paste
+  set mouse=
+  augroup unimpaired_paste
+    autocmd!
+    autocmd InsertLeave *
+          \ if exists('s:paste') |
+          \   let &paste = s:paste |
+          \   let &mouse = s:mouse |
+          \   unlet s:paste |
+          \   unlet s:mouse |
+          \ endif |
+          \ autocmd! unimpaired_paste
+  augroup END
+endfunction
+
+nnoremap <silent> <Plug>unimpairedPaste :call <SID>setup_paste()<CR>
+nnoremap <silent> yo  :call <SID>setup_paste()<CR>o
+nnoremap <silent> yO  :call <SID>setup_paste()<CR>O
+
+"--------------------------------
+" support 24bit true color
+"--------------------------------
+if OSX()
+    " set termguicolors
+endif
+
+"--------------------------------
+" redirect grep output to file
+"--------------------------------
+function GrepToFile(pattern)
+   let l:mainbuffer = expand("%:r")
+   let l:pat_without_quotation = substitute(a:pattern, "[\"]", "", "g")
+   let l:pat = substitute(a:pattern, "[ \|\\\/]", "_", "g")
+   let l:pat = substitute(l:pat, "[\"]", "", "g")
+   let l:file = l:mainbuffer . "_" . l:pat . ".txt"
+   silent execute "!ag -i " . string(l:pat_without_quotation) . " % > " . l:file
+   silent execute "edit +0 " . l:file
+   silent execute "redraw!"
+endfunction
+command -nargs=+ GG :call GrepToFile(<q-args>)
+
+
+"--------------------------------
+" configuration for Gtags
+"--------------------------------
+let Gtags_Auto_Map = 0
+let Gtags_Auto_Update = 1
+let Gtags_No_Auto_Jump = 0
+let Gtags_Close_When_Single = 1
+let Gtags_OpenQuickfixWindow = 0
+:nmap <C-n> :GtagsCursor<CR>
+
+"--------------------------------
+" Parallel update workspace 
+"--------------------------------
+function Myupdate()
+   execute "!update.sh"
+endfunction
+command  Up :call Myupdate()
+nmap <leader>u :Up<CR><CR>
+
+
+
+"--------------------------------
+" Ag to replace grep
+"--------------------------------
+set grepprg=ag\ --nogroup\ --nocolor
+" nmap <leader>c :ccl<CR>
+" nmap <leader>o :cw<CR>
+
+"--------------------------------
+" change working dir to dir of current file
+"--------------------------------
+:nmap <leader>cd :cd %:p:h<CR> :pwd<CR>
+
+"--------------------------------
+" split window
+"--------------------------------
+:nmap <leader>v :vsplit<CR>
+:nmap <leader>h :split<CR>
+

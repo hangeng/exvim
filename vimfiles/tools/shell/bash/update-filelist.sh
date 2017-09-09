@@ -50,6 +50,8 @@ fi
 if [ -f "${TARGET}" ]; then
     echo "  |- generate ${ID_TARGET}"
     gawk -f "${TOOLS}/gawk/null-terminal-files.awk" "${TARGET}">"${ID_TARGET}"
+    cat "${TARGET}" | grep -E "\.cpp$|\.hpp$|\.h$|\.c$|\.asm$" > "${TARGET}_tmp"
+    mv -f "${TARGET}_tmp" "${TARGET}"
 fi
 
 echo "  |- done!"

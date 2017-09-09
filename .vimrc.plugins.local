@@ -4,3 +4,46 @@
 
 " Add your customized plugins:
 " Example: Plugin 'foo/bar/foobar'
+
+" ---------------------------------------------------
+" junegunn/fzf
+" ---------------------------------------------------
+"Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+nnoremap <C-P> :Files<CR>
+nnoremap <C-x> :Buffers<CR>
+nnoremap <leader>ss :pwd<CR> :Tags<CR>
+set rtp+=/usr/local/opt/fzf
+
+
+" ---------------------------------------------------
+" vasconcelloslf/vim-interestingwords
+" ---------------------------------------------------
+Plugin 'vasconcelloslf/vim-interestingwords'
+
+
+" ---------------------------------------------------
+" mileszs/ack.vim
+" ---------------------------------------------------
+Plugin 'mileszs/ack.vim'
+if executable('ag')
+      let g:ackprg = 'ag --vimgrep'
+endif
+
+
+" ---------------------------------------------------
+" mileszs/ack.vim
+" ---------------------------------------------------
+" Plugin 'jrosiek/vim-mark'
+
+"Plugin 'vim-scripts/gtags.vim'
+
+" ---------------------------------------------------
+" mileszs/ack.vim
+" ---------------------------------------------------
+Plugin 'tommcdo/vim-kangaroo'
+
+
+Plugin 'guofh/VimStock'
+
+

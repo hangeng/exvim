@@ -9,16 +9,16 @@ call vundle#rc(cwd.'/vimfiles/bundle/')
 
 " =======================================================
 
+Plugin 'hangeng/ex-vimentry'
+Plugin 'hangeng/ex-config'
+Plugin 'hangeng/ex-gsearch'
+Plugin 'hangeng/ex-tags'
+Plugin 'hangeng/ex-cscope'
 Plugin 'gmarik/Vundle.vim'
-Plugin 'exvim/ex-config'
 Plugin 'exvim/ex-utility'
 Plugin 'exvim/ex-aftercolors'
-Plugin 'exvim/ex-vimentry'
 Plugin 'exvim/ex-project'
-Plugin 'exvim/ex-gsearch'
-Plugin 'exvim/ex-tags'
 Plugin 'exvim/ex-symbol'
-Plugin 'exvim/ex-cscope'
 Plugin 'exvim/ex-qfix'
 Plugin 'exvim/ex-hierarchy'
 Plugin 'exvim/ex-taglist'
