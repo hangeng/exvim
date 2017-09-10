@@ -17,6 +17,7 @@ else
     # process tags by langugage
     echo "  |- generate ${TMP}"
     ${CTAGS_CMD} -o "${TMP}" ${OPTIONS} "${FILES}"
+    gtags -f "${DEST}/files"
 
     # replace old file
     if [ -f "${TMP}" ]; then
