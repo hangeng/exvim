@@ -306,7 +306,7 @@ let g:NERDTreeMapToggleZoom = '<Space>'
 
 " nerdcommenter: invoke by <leader>c<space>, <leader>cl, <leader>cu, <F11> or <C-F11>
 " ---------------------------------------------------
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'hangeng/nerdcommenter'
 
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1

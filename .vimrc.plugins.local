@@ -41,8 +41,7 @@ endif
 " ---------------------------------------------------
 " mileszs/ack.vim
 " ---------------------------------------------------
-Plugin 'tommcdo/vim-kangaroo'
-
+Plugin 'hangeng/vim-kangaroo'
 
 Plugin 'guofh/VimStock'
 
