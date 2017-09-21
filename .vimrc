@@ -678,7 +678,8 @@ let Gtags_Auto_Update = 1
 let Gtags_No_Auto_Jump = 0
 let Gtags_Close_When_Single = 1
 let Gtags_OpenQuickfixWindow = 0
-:nmap <C-n> :KangarooPush<CR> :GtagsCursor<CR> :KangarooPush<CR>
+":nmap <C-n> :KangarooPush<CR> :GtagsCursor<CR> :KangarooPush<CR>
+:nmap <C-n> :GtagsCursor<CR>
 
 "--------------------------------
 " Parallel update workspace 
