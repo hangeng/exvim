@@ -479,9 +479,6 @@ if !hasmapto(':EXbp<CR>') && mapcheck('<C-h>','n') == ''
     noremap <C-h> :bp<CR>
 endif
 
-" easy diff goto
-noremap <C-k> [c
-noremap <C-j> ]c
 
 " enhance '<' '>' , do not need to reselect the block after shift it.
 vnoremap < <gv
@@ -608,14 +605,11 @@ nmap <leader>s :split /Users/hang1/notebook/tmp.txt<CR><C-w>R
 "--------------------------------
 " git push
 "--------------------------------
-nmap <leader>gp :!git add -u && git commit -m "bug fix" && git push<CR>
+nmap <leader>gp :!git_push.sh<CR>
+nmap <leader>gb :!git_pull.sh<CR>
 map q <Nop>
 
 
-"--------------------------------
-" remap the <C-l> to  :TlistToggle
-"--------------------------------
-nnoremap <silent> <C-l> :TlistToggle<CR>
 
 "--------------------------------
 " without clipboard support, use yo to open a new line, switch to insert mode
@@ -670,16 +664,7 @@ endfunction
 command -nargs=+ GG :call GrepToFile(<q-args>)
 
 
-"--------------------------------
-" configuration for Gtags
-"--------------------------------
-let Gtags_Auto_Map = 0
-let Gtags_Auto_Update = 1
-let Gtags_No_Auto_Jump = 0
-let Gtags_Close_When_Single = 1
-let Gtags_OpenQuickfixWindow = 0
-":nmap <C-n> :KangarooPush<CR> :GtagsCursor<CR> :KangarooPush<CR>
-:nmap <C-n> :GtagsCursor<CR>
+
 
 "--------------------------------
 " Parallel update workspace 
@@ -709,4 +694,9 @@ set grepprg=ag\ --nogroup\ --nocolor
 "--------------------------------
 :nmap <leader>v :vsplit<CR>
 :nmap <leader>h :split<CR>
+
+"--------------------------------
+" set redrawtime 
+"--------------------------------
+set redrawtime=10000
 

@@ -55,55 +55,35 @@ call exgsearch#register_hotkey( 102, 0, '<leader><S-f>', ":GS ", 'Shortcut for :
 " ---------------------------------------------------
 Plugin 'hangeng/ex-tags'
 
-call extags#register_hotkey( 100, 0, '<leader>ts', ":EXTagsToggle<CR>", 'Toggle tag select window.' )
-call extags#register_hotkey( 101, 0, '<leader>tg', ":EXTagsCWord<CR>", 'go to the definition' )
-" DISABLE: nnoremap <unique> <leader>] :exec 'ts ' . expand('<cword>')<CR>
 
 " ex-symbol
 " ---------------------------------------------------
 Plugin 'exvim/ex-symbol'
-
-"call exsymbol#register_hotkey( 100, 0, '<leader>ss', ":EXSymbolList<CR>", 'List all symbols.' )
 call exsymbol#register_hotkey( 101, 0, '<leader>sq', ":EXSymbolOpen<CR>", 'Open symbols window.' )
 call exsymbol#register_hotkey( 102, 0, '<leader>sg', ":EXSymbolCWord<CR>", 'List symbols contains current word.' )
-
-if has('gui_running')
-    if has ('mac')
-        call exsymbol#register_hotkey( 102, 0, 'Ò', ":EXSymbolList<CR>:redraw<CR>/", 'List all symbols and stay in search mode.' )
-    else
-        call exsymbol#register_hotkey( 102, 0, '<M-L>', ":EXSymbolList<CR>:redraw<CR>/", 'List all symbols and stay in search mode.' )
-    endif
-endif
 let g:ex_symbol_select_cmd = 'TS'
 
 " ex-cscope
 " ---------------------------------------------------
 Plugin 'hangeng/ex-cscope'
-
 call excscope#register_hotkey( 100, 0, '<leader>cs', ":EXCSToggle<CR>", 'Toggle cscope window.' )
 nnoremap <unique> <silent> <Leader>cc :CSCD<CR>
 
 " ex-qfix
 " ---------------------------------------------------
 Plugin 'exvim/ex-qfix'
-
 call exqfix#register_hotkey( 100, 0, '<leader>qf', ":EXQFixToggle<CR>", 'Toggle quickfix window.' )
 call exqfix#register_hotkey( 101, 0, '<leader>qq', ":EXQFixPaste<CR>", 'Open quickfix window and paste error list from register *.' )
 
 " ex-hierarchy
 " ---------------------------------------------------
 Plugin 'exvim/ex-hierarchy'
-
 nnoremap <unique> <leader>hv :EXHierarchyCWord<CR>
 
 " ex-taglist: invoke by <F4>
 " ---------------------------------------------------
 Plugin 'exvim/ex-taglist'
-
-" F4:  Switch on/off TagList
-nnoremap <unique> <silent> <F4> :TlistToggle<CR>
-
-"let Tlist_Ctags_Cmd = $VIM.'/vimfiles/ctags.exe' " location of ctags tool
+nnoremap <unique> <silent> <C-l> :TlistToggle<CR>
 let Tlist_Show_One_File = 1 " Displaying tags for only one file~
 let Tlist_Exist_OnlyWindow = 1 " if you are the last, kill yourself
 let Tlist_Use_Right_Window = 1 " split to the right side of the screen
@@ -117,11 +97,6 @@ let Tlist_BackToEditBuffer = 0 " If no close on select, let the user choose back
 let Tlist_Enable_Fold_Column = 0 " Don't Show the fold indicator column in the taglist window.
 let Tlist_WinWidth = 40
 let Tlist_Compact_Format = 1 " do not show help
-" let Tlist_Ctags_Cmd = 'ctags --c++-kinds=+p --fields=+iaS --extra=+q --languages=c++'
-" very slow, so I disable this
-" let Tlist_Process_File_Always = 1 " To use the :TlistShowTag and the :TlistShowPrototype commands without the taglist window and the taglist menu, you should set this variable to 1.
-":TlistShowPrototype [filename] [linenumber]
-
 " add javascript language
 let tlist_javascript_settings = 'javascript;v:global variable:0:0;c:class;p:property;m:method;f:function;r:object'
 " add hlsl shader language
@@ -129,89 +104,11 @@ let tlist_hlsl_settings = 'c;d:macro;g:enum;s:struct;u:union;t:typedef;v:variabl
 " add actionscript language
 let tlist_actionscript_settings = 'actionscript;c:class;f:method;p:property;v:variable'
 
-" DISABLE: use tlist instead
-" " exvim/ex-tagbar: invoke by <F4>
-" " ---------------------------------------------------
-" Plugin 'exvim/ex-tagbar'
 
-" nnoremap <unique> <silent> <F4> :TagbarToggle<CR>
-
-" let g:tagbar_sort = 0
-" let g:tagbar_map_preview = '<CR>'
-" if has('gui_running')
-"     let g:tagbar_map_close = '<Esc>'
-" else
-"     let g:tagbar_map_close = '<leader><Esc>'
-" endif
-" let g:tagbar_map_zoomwin = '<Space>'
-" let g:tagbar_zoomwidth = 80
-" let g:tagbar_autofocus = 1
-" let g:tagbar_iconchars = ['+', '-']
-
-" " use command ':TagbarGetTypeConfig lang' change your settings
-" let g:tagbar_type_javascript = {
-"     \ 'ctagsbin': 'ctags',
-"     \ 'kinds' : [
-"         \ 'v:global variables:0:0',
-"         \ 'c:classes',
-"         \ 'p:properties:0:0',
-"         \ 'm:methods',
-"         \ 'f:functions',
-"         \ 'r:object',
-"     \ ],
-" \ }
-" let g:tagbar_type_c = {
-"     \ 'kinds' : [
-"         \ 'd:macros:0:0',
-"         \ 'p:prototypes:0:0',
-"         \ 'g:enums',
-"         \ 'e:enumerators:0:0',
-"         \ 't:typedefs:0:0',
-"         \ 's:structs',
-"         \ 'u:unions',
-"         \ 'm:members:0:0',
-"         \ 'v:variables:0:0',
-"         \ 'f:functions',
-"     \ ],
-" \ }
-" let g:tagbar_type_cpp = {
-"     \ 'kinds' : [
-"         \ 'd:macros:0:0',
-"         \ 'p:prototypes:0:0',
-"         \ 'g:enums',
-"         \ 'e:enumerators:0:0',
-"         \ 't:typedefs:0:0',
-"         \ 'n:namespaces',
-"         \ 'c:classes',
-"         \ 's:structs',
-"         \ 'u:unions',
-"         \ 'f:functions',
-"         \ 'm:members:0:0',
-"         \ 'v:variables:0:0',
-"     \ ],
-" \ }
-
-" DISABLE: minibufexpl makes Vim editing slow when there are too many buffers opened
-"          if you don't mind, and love this plugin, uncomment the script below
-"          to enable it
-" ex-minibufexpl
 " ---------------------------------------------------
-" Plugin 'exvim/ex-minibufexpl'
-" let g:miniBufExplBuffersNeeded = 0
-" let g:miniBufExplUseSingleClick = 1 " If you would like to single click on tabs rather than double clicking on them to goto the selected buffer.
-" let g:miniBufExplMaxSize = 1 " <max lines: default 0> setting this to 0 will mean the window gets as big as needed to fit all your buffers.
-" let g:miniBufExplTabWrap = 1
-" " let g:miniBufExplDebugMode  = 3
-" " let g:miniBufExplDebugLevel = 0
-
-" ex-autocomplpop: invoke when you input text
-" ---------------------------------------------------
-"Plugin 'exvim/ex-autocomplpop'
-
 " ex-showmarks: invoke by m... or <leader>mm, <leader>ma
 " ---------------------------------------------------
 Plugin 'exvim/ex-showmarks'
-
 " TODO: bootleq/ShowMarks on github is well organized in code, but have lots
 " bugs, consider merge his code and fixes the bugs
 let g:showmarks_enable = 1
@@ -248,39 +145,6 @@ Plugin 'exvim/ex-colorschemes'
 " vim-color-gruvbox
 " ---------------------------------------------------
 Plugin 'morhetz/gruvbox'
-
-" let g:gruvbox_contrast_dark = 'soft'
-
-" DISABLE: vim-airline makes Vim editing slow when there are too many buffers opened
-"          if you don't mind, and love this plugin, uncomment the script below
-"          to enable it
-" vim-airline
-" ---------------------------------------------------
-" Plugin 'bling/vim-airline'
-
-" if has('gui_running')
-"     let g:airline_powerline_fonts = 1
-" else
-"     let g:airline_powerline_fonts = 0
-" endif
-
-" let g:airline#extensions#tabline#enabled = 0 " NOTE: When you open lots of buffers and typing text, it is so slow.
-" let g:airline#extensions#tabline#show_buffers = 1
-" let g:airline#extensions#tabline#buffer_nr_show = 1
-" let g:airline#extensions#tabline#fnamemod = ':t'
-" " let g:airline_section_b = "%{fnamemodify(bufname('%'),':p:.:h').'/'}"
-" " let g:airline_section_c = '%t'
-" " let g:airline_section_warning = airline#section#create(['whitespace']) " NOTE: airline#section#create has no effect in .vimrc initialize pahse
-" " let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#whitespace#check(),0)}'
-" let g:airline_section_warning = ''
-
-"" ctrlp: invoke by <ctrl-p>
-"Plugin 'kien/ctrlp.vim'
-"let g:ctrlp_working_path_mode = ''
-"let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-"let g:ctrlp_follow_symlinks = 2
-"let g:ctrlp_max_files = 0 " Unset cap of 10,000 files so we find everything
-"nnoremap <unique> <leader>bs :CtrlPBuffer<CR>
 
 " vim-fugitive: invoke most by :Gdiff
 " ---------------------------------------------------
@@ -325,72 +189,32 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_always_populate_loc_list = 0                                    
 let g:syntastic_auto_loc_list = 0 
 
-" DISABLE: use ex-autocomplpop instead
-" " neocomplcache: invoke when you insert words
-" Plugin 'Shougo/neocomplcache.vim'
-" " ---------------------------------------------------
-
-" let g:neocomplcache_enable_at_startup = 1
-" let g:neocomplcache_auto_completion_start_length = 2
-" let g:neocomplcache_enable_smart_case = 1
-" let g:neocomplcache_enable_auto_select = 1 " let neocomplcache's completion behavior like AutoComplPop
-" let g:neocomplcache_disable_auto_complete = 1 " Enable this if you like TAB for complete
-" " inoremap <C-p> <C-x><C-u>
-" " inoremap <expr><TAB>  pumvisible() ? '\<Down>' : '<TAB>'
-" " inoremap <expr><S-TAB>  pumvisible() ? '\<Up>' : ''
-
-" DISABLE: use ex-autocomplpop instead
-" " neocomplete: invoke when you insert words
-" Plugin 'Shougo/neocomplete.vim'
-" " ---------------------------------------------------
-
-" let g:neocomplete#enable_at_startup = 1
-" let g:neocomplete#enable_smart_case = 1
-" let g:neocomplete#enable_auto_select = 1 " let neocomplete's completion behavior like AutoComplPop
-" " Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType c setlocal omnifunc=ccomplete#Complete
 
 " DISABLE: use ex-autocomplpop instead
 " YouCompleteMe
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_echo_current_diagnostic = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_always_populate_location_list = 1
-let g:ycm_confirm_extra_conf = 0
-"let g:ycm_seed_identifiers_with_syntax = 1
+"------------------------------------
+"Plugin 'Valloric/YouCompleteMe'
+"let g:ycm_show_diagnostics_ui = 1
+"let g:ycm_enable_diagnostic_signs = 1
+"let g:ycm_enable_diagnostic_highlighting = 1
+"let g:ycm_echo_current_diagnostic = 0
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_collect_identifiers_from_tags_files = 1
+"let g:ycm_add_preview_to_completeopt = 1
+"let g:ycm_open_loclist_on_ycm_diags = 1
+"let g:ycm_always_populate_location_list = 1
+"let g:ycm_confirm_extra_conf = 0
+""let g:ycm_seed_identifiers_with_syntax = 1
 
-
-nnoremap <leader>tf :KangarooPush<CR> :YcmCompleter GoTo<CR> :KangarooPush<CR>
-nnoremap <leader>td :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>tt :YcmCompleter GoToDeclaration<CR>
-" nnoremap <leader>tt :YcmCompleter GetType<CR>
-nnoremap <leader>tc :YcmCompleter GetDoc<CR>
-nnoremap <leader>tb <C-O>
-"nnoremap <unique> <silent> <Leader>cs :ExcsSelectToggle<CR>
-set completeopt=menu
-
-" " ---------------------------------------------------
-
-" TODO: choose a snippet plugin
-" Plugin 'Shougo/neosnippet.vim'
-" " ---------------------------------------------------
-
-" Plugin 'msanders/snipmate.vim'
-" " ---------------------------------------------------
-
-" Plugin 'spf13/snipmate-snippets'
-" " ---------------------------------------------------
+"nnoremap <leader>tf :KangarooPush<CR> :YcmCompleter GoTo<CR> :KangarooPush<CR>
+"nnoremap <leader>td :YcmCompleter GoToDefinition<CR>
+"nnoremap <leader>tt :YcmCompleter GoToDeclaration<CR>
+"" nnoremap <leader>tt :YcmCompleter GetType<CR>
+"nnoremap <leader>tc :YcmCompleter GetDoc<CR>
+"nnoremap <leader>tb <C-O>
+""nnoremap <unique> <silent> <Leader>cs :ExcsSelectToggle<CR>
+"set completeopt=menu
+"------------------------------------
 
 " undotree: invoke by <Leader>u
 " ---------------------------------------------------
@@ -531,22 +355,10 @@ Plugin 'wavded/vim-stylus'
 
 " vim-markdown
 " ---------------------------------------------------
-"Plugin 'plasticboy/vim-markdown'
-
+Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_level = 6
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_folding_style_pythonic = 1
 " close the TOC window after stroke enter
-nnoremap <expr><enter> &ft=="qf" ? "<cr>:lcl<cr>" : (getpos(".")[2]==1 ? "i<cr><esc>": "i<cr><esc>l")
-
-
-"}}}
-
-" TEST {{{
-" " test-loading
-" echomsg "test-loading: .vimrc"
-" Plugin 'exvim/test-loading'
-"}}}
-
-" vim:ts=4:sw=4:sts=4 et fdm=marker:
+" nnoremap <expr><enter> &ft=="qf" ? "<cr>:lcl<cr>" : (getpos(".")[2]==1 ? "i<cr><esc>": "i<cr><esc>l")
 
