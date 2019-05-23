@@ -31,7 +31,7 @@ endif
 
 
 " ---------------------------------------------------
-" mileszs/ack.vim
+" hangeng/vim-kangaroo
 " ---------------------------------------------------
 Plugin 'hangeng/vim-kangaroo'
 nnoremap <Space> za
@@ -162,11 +162,24 @@ let Gtags_OpenQuickfixWindow = 0
 "--------------------------------
 " coc (ccls)
 "--------------------------------
-nmap <silent> <C-j> <Plug>(coc-definition)
+function! s:jump_to_definition()
+    silent execute "KangarooPush"
+    silent execute "call CocActionAsync('jumpDefinition')"
+    " above call is a Async call, cursor will be updated until the async call
+    " responsed. But I don't know the async call response hook function, so no
+    " place to add the 2nd KangarooPush 
+
+    " silent execute "KangarooPush"
+endfunction
+
+nmap <silent> <C-j> :call <SID>jump_to_definition()<CR>
+nmap <silent> <C-n> :call <SID>jump_to_definition()<CR>
+
 nmap <silent> <C-k> <Plug>(coc-references)
+nnoremap <silent> <space>e  :<C-u>CocList diagnostics<cr>
+" nmap <silent> <C-n> <Plug>(coc-definition)
 " nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
 " nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
-" nnoremap <silent> <space>e  :<C-u>CocList diagnostics<cr>
 
 
 
